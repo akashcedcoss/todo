@@ -1,14 +1,33 @@
 <?php
 session_start();
-
+    $a = $_POST["text"];
+    $index = 0;
     if (!isset($_SESSION["add"])) {
         $_SESSION["add"] = array();  
     }
-    array_push($_SESSION['add'], $_GET["text"]);
-
+    if($a != ""){
+    
+    array_push($_SESSION['add'], $a);
+    $index++;
    
+    }  
+    print_r($_SESSION["add"][$index]);
+     
+
+    
+if(!isset($_POST['checkbox'])){
+    $_SESSION["dataC"] = array();
+}
+$c = $_SESSION["add"][$index];
+if($c != ""){
     
 
+array_push($_SESSION['dataC'],$c);
+$index++;
+}
+
+
+    
     
 
 ?>
@@ -18,12 +37,12 @@ session_start();
     <head>
         <title>TODO List</title>
         <link href="style.css" rel="stylesheet">
-    </head>text=
+    </head>
     <body>
         <div class="container">
             <h2>TODO LIST</h2>
             <h3>Add Item</h3>
-            <form action="" method="get">
+            <form action="" method="POST">
             <p>
                 <input id="new-task" type="text" name="text">
                 <input type="submit" value="Add" name="add">
@@ -31,26 +50,25 @@ session_start();
     
             <h3>Todo</h3>
             <ul id="incomplete-tasks">
-                <!-- <li><input type="checkbox"><label> </label><button class="edit">Edit</button><button class="delete">Delete</button></li>
-                <li><input type="checkbox"><label>Go Shopping</label><input type="text" value="Go Shopping"><button class="edit">Edit</button><button class="delete">Delete</button></li> -->
-                <div>
                 <?php
                 foreach($_SESSION["add"] as $key => $val){
-                    echo $val;
-
-                }
+                        echo '<li><input type="checkbox" name='.$index.'><label>' .$val. '</label><button class="edit" name="edit">Edit</button><button class="delete" name="delete">Delete</button></li>';
+}
                 ?>
-                <input type="button" value="Edit">
-                <input type="button" value="Delete">
-            </ul>
-            </div>
-    
-            <h3>Completed</h3>
-            <ul id="completed-tasks">
-                <li><input type="checkbox" checked><label>See the Doctor</label><input type="text"><button class="edit">Edit</button><button class="delete">Delete</button></li>
             </ul>
             </form>
+            
+            <form action="" method="POST">
+            <h3>Completed</h3>
+            <ul id="completed-tasks">
+            <?php
+            foreach($_SESSION["dataC"] as $key => $val1){
+                echo '<li><input type="checkbox" checked><label>' .$_SESSION["add"][$index]. '</label><input type="text"><button class="edit">Edit</button><button class="delete">Delete</button></li>';
+            }
+            ?>
+                </ul>
+        </form>
+            
         </div>
-    
     </body>
 </html>
